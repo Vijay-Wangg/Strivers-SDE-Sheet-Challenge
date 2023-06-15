@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+         vector<vector<int>>memo(prices.size(),vector<int>(2,-10000));
+        return findProfit(memo,prices,0,1,1);
+        
+    }
+    private: int findProfit(vector<vector<int>>&memo,vector<int>& prices,int curIndex,int canBuy,int transaction){
+        if(curIndex>=prices.size()||transaction<=0) return 0;
+        
+        if(memo[curIndex][canBuy]!=-10000) return memo[curIndex][canBuy];
+        
+        if(canBuy){
+           int idle= findProfit(memo,prices,curIndex+1,canBuy,transaction);
+            int buy=-prices[curIndex]+findProfit(memo,prices,curIndex+1,!canBuy,transaction);
+           return memo[curIndex][canBuy]=max(idle,buy);
+        }
+        else{
+            int idle=findProfit(memo,prices,curIndex+1,canBuy,transaction);
+            int sell=prices[curIndex]+findProfit(memo,prices,curIndex+1,!canBuy,transaction-1);
+            return memo[curIndex][canBuy]=max(idle,sell);
+        }
+        return -1;
+    }
+};
