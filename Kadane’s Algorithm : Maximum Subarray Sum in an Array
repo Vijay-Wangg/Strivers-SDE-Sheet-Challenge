@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int ans=nums[0];
+        
+        int curSum=nums[0];
+        
+        // follow sumeet  sir lecture in case of doubt
+        for(int i=1;i<nums.size();i++){
+            if(curSum>0){    //pichhle wale me samil hona hai ya nhi agr 0 se bda hai tb fayda hi hoga judne me
+                curSum+=nums[i];
+            }
+            else{            //ya apne se hi suru kru
+                curSum=nums[i];
+            }
+            
+            if(ans<curSum){
+                ans=curSum;
+            }
+        }
+        return ans;
+    }
+};
