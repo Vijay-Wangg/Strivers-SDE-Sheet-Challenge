@@ -1,0 +1,17 @@
+class Solution {
+public:
+    void rotate(vector<vector<int>>& mat) {
+        int n=mat.size();
+        for(int g=0;g<n;g++){
+            for(int j=g+1;j<n;j++){
+                swap(mat[g][j],mat[j][g]);
+            }
+        }
+        
+        for(int i=0;i<n;i++){
+            reverse(mat[i].begin(),mat[i].end());
+        }
+        
+        return;
+    }
+};
