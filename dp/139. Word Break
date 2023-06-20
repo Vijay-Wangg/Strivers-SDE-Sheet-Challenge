@@ -1,0 +1,32 @@
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& dic) {
+        unordered_map<string,int>memo;
+        for(auto x:dic) memo[x]++;
+        
+        vector<vector<int>>dp(s.size()+1,vector<int>(s.size()+1,-1));
+        return solve(s,memo,dp,0,0);
+    }
+    
+    private: bool solve(string &s,unordered_map<string,int>&memo,vector<vector<int>>&dp,int i,int j){
+        if(j==s.size()-1&&memo.find(s.substr(i,j-i+1))==memo.end()) return 0;
+        if(j==s.size()-1&&memo.find(s.substr(i,j-i+1))!=memo.end()) return 1;
+        
+        
+        if(dp[i][j]!=-1) return dp[i][j];
+        bool split=0;  //uske aage wale word ko ab dekhte hai
+        bool notSplit=0;   //isi me continue krte hai
+        
+        if(memo.find(s.substr(i,j-i+1))!=memo.end()) {  /// agar i se j tk substring mil gya tb ka case
+            //cout<<s.substr(i,j-i+1)<<endl;
+            split=split||solve(s,memo,dp,j+1,j+1);
+            
+            notSplit=notSplit||solve(s,memo,dp,i,j+1);
+        }
+        else{
+            notSplit=notSplit||solve(s,memo,dp,i,j+1);
+        }
+        
+        return dp[i][j]=split||notSplit;
+    }
+};
